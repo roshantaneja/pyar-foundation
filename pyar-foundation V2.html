@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PYAR Foundation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --cream: #FAF7F2;
+    --ink: #1C1A17;
+    --gold: #B8813A;
+    --gold-light: #E8C98A;
+    --muted: #6B6560;
+    --border: #E2DDD6;
+    --card-bg: #F4F0E8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--ink);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    border-bottom: 1px solid rgba(184,129,58,0.3);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--gold-light);
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  .nav-logo span { color: #fff; font-weight: 300; font-style: italic; }
+
+  .nav-links {
+    display: flex;
+    gap: 0;
+    list-style: none;
+  }
+
+  .nav-links li a {
+    display: block;
+    padding: 0 1rem;
+    height: 60px;
+    line-height: 60px;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    text-decoration: none;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .nav-links li a:hover,
+  .nav-links li a.active {
+    color: var(--gold-light);
+    background: rgba(184,129,58,0.1);
+  }
+
+  /* PAGES */
+  .page { display: none; flex-direction: column; flex: 1; }
+  .page.active { display: flex; flex-direction: column; flex: 1; }
+
+  /* HERO */
+  .hero {
+    background: var(--ink);
+    color: #fff;
+    padding: 5rem 2rem 4rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(184,129,58,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    margin-bottom: 1.5rem;
+    color: #fff;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+
+  .hero-sub {
+    max-width: 540px;
+    margin: 0 auto 2.5rem;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.8;
+  }
+
+  .badge-501 {
+    display: inline-block;
+    border: 1px solid rgba(184,129,58,0.5);
+    color: var(--gold-light);
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 2px;
+  }
+
+  /* SECTION */
+  .section {
+    padding: 4rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.6rem;
+  }
+
+  .section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 400;
+    line-height: 1.15;
+    margin-bottom: 1.5rem;
+    color: var(--ink);
+  }
+
+  .section p {
+    color: var(--muted);
+    font-size: 0.95rem;
+    max-width: 660px;
+    margin-bottom: 1rem;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0;
+  }
+
+  /* MISSION BLOCK */
+  .mission-block {
+    background: var(--card-bg);
+    border-left: 3px solid var(--gold);
+    padding: 2rem 2.5rem;
+    margin: 2rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .mission-block p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--ink);
+    max-width: 100%;
+    margin: 0;
+  }
+
+  /* PROJECT CARDS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem 1.75rem;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s;
+  }
+
+  .project-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+  .project-card:hover::after { transform: scaleX(1); }
+
+  .project-num {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+  }
+
+  .project-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .project-card p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .card-link {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .project-card:hover .card-link { border-color: var(--gold); }
+
+  /* PAGE HERO (sub-pages) */
+  .page-hero {
+    background: var(--ink);
+    padding: 3.5rem 2rem 2.5rem;
+    color: #fff;
+  }
+
+  .page-hero .breadcrumb {
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    cursor: pointer;
+  }
+
+  .page-hero .breadcrumb:hover { text-decoration: underline; }
+
+  .page-hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .page-hero .tagline {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.55);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+  }
+
+  /* DETAIL SECTION */
+  .detail-section {
+    padding: 3.5rem 2rem;
+    max-width: 820px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .detail-section h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    color: var(--ink);
+  }
+
+  .detail-section p {
+    color: var(--muted);
+    font-size: 0.93rem;
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    max-width: 660px;
+  }
+
+  .fact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .fact-chip {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .fact-chip strong {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2px;
+    font-weight: 500;
+  }
+
+  .ext-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(184,129,58,0.3);
+    transition: border-color 0.2s;
+  }
+
+  .ext-link:hover { border-color: var(--gold); }
+
+  /* CONTACT */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .contact-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+  }
+
+  .contact-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+    color: var(--ink);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.75rem;
+  }
+
+  .contact-card p, .contact-card a {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.8;
+    text-decoration: none;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  .contact-card a:hover { color: var(--gold); }
+
+  .contact-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    display: block;
+    margin: 1rem 0 0.25rem;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    font-size: 0.75rem;
+    padding: 2rem;
+    letter-spacing: 0.05em;
+    margin-top: auto;
+    border-top: 1px solid rgba(184,129,58,0.2);
+  }
+
+  footer strong {
+    color: rgba(255,255,255,0.7);
+    font-weight: 400;
+  }
+
+  /* MOBILE */
+  @media (max-width: 640px) {
+    .nav-links li a { padding: 0 0.6rem; font-size: 0.65rem; letter-spacing: 0.08em; }
+    .hero { padding: 3rem 1.25rem 2.5rem; }
+    .section, .detail-section { padding: 2.5rem 1.25rem; }
+    .mission-block { padding: 1.5rem; }
+    .page-hero { padding: 2.5rem 1.25rem 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" onclick="showPage('home')"><em>PYAR</em> Foundation</a>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home')" id="nav-home" class="active">Home</a></li>
+    <li><a href="#" onclick="showPage('bandra')" id="nav-bandra">BFF</a></li>
+    <li><a href="#" onclick="showPage('kurinji')" id="nav-kurinji">Kurinji</a></li>
+    <li><a href="#" onclick="showPage('maasai')" id="nav-maasai">Maasai</a></li>
+    <li><a href="#" onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HOME PAGE -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <p class="hero-eyebrow">PYAR Foundation</p>
+    <h1>Stories that<br /><em>change the world.</em></h1>
+    <p class="hero-sub">A nonprofit organization dedicated to amplifying independent cinema, preserving cultural heritage, and supporting filmmakers whose stories deserve to be seen.</p>
+    <span class="badge-501">501(c)(3) Nonprofit Organization</span>
+  </div>
+
+  <div class="section">
+    <p class="section-label">Our Mission</p>
+    <h2>Why we exist</h2>
+    <div class="mission-block">
+      <p>PYAR Foundation exists to champion stories that would otherwise go untold — films rooted in culture, community, and human dignity. We believe cinema is among the most powerful forces for empathy and understanding across the world, and we commit our resources to the filmmakers and festivals that carry that torch.</p>
+    </div>
+    <p>As a 501(c)(3) nonprofit, PYAR Foundation provides financial support, production resources, and institutional backing to projects that center underrepresented voices. Our work spans independent film festivals, narrative features, and documentary projects, united by a shared belief in the transformative power of storytelling.</p>
+    <p>PYAR Foundation is the nonprofit arm of <strong>PYAR Films</strong>, a production company committed to meaningful, socially engaged cinema.</p>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section">
+    <p class="section-label">Current Projects</p>
+    <h2>What we support</h2>
+    <p>PYAR Foundation currently supports three active initiatives spanning India, East Africa, and the international film community.</p>
+
+    <div class="projects-grid">
+      <div class="project-card" onclick="showPage('bandra')">
+        <p class="project-num">Project 01</p>
+        <h3>Bandra Film Festival</h3>
+        <p>A world-class film festival in Mumbai dedicated to facilitating new cinematic voices and unique storytelling for global audiences.</p>
+        <span class="card-link">Learn more →</span>
+      </div>
+      <div class="project-card" onclick="showPage('maasai')">
+        <p class="project-num">Project 02</p>
+        <h3>Maasai Community Documentary</h3>
+        <p>A documentary film following the Maasai community in East Africa, chronicling their culture, resilience, and the fight for clean water access.</p>
+        <span class="card-link">Learn more →</span>
+      </div>
+      <div class="project-card" onclick="showPage('kurinji')">
+        <p class="project-num">Project 03</p>
+        <h3>Kurinji</h3>
+        <p>An internationally acclaimed Kerala-set drama about a woman's quiet awakening — a France–India–US co-production making waves at Berlinale and beyond.</p>
+        <span class="card-link">Learn more →</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <div class="section">
+    <p class="section-label">About Us</p>
+    <h2>PYAR Foundation is a 501(c)(3)</h2>
+    <p>PYAR Foundation is a tax-exempt nonprofit organization under Section 501(c)(3) of the Internal Revenue Code. Contributions to PYAR Foundation are tax-deductible to the extent permitted by law.</p>
+    <p>Our work is made possible through the generosity of individual donors, institutional partners, and the broader community of people who believe that stories — and the people who tell them — deserve support.</p>
+  </div>
+
+  <footer>
+    <strong>PYAR Foundation</strong> · 501(c)(3) Nonprofit Organization · An initiative of PYAR Films
+  </footer>
+</div>
+
+<script>
+  window.showPage = function(id) {
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.remove('active'); });
+    document.getElementById('page-' + id).classList.add('active');
+    var navEl = document.getElementById('nav-' + id);
+    if (navEl) navEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return false;
+  };
+  document.querySelectorAll('.nav-links a').forEach(function(a) {
+    a.addEventListener('click', function(e) { e.preventDefault(); });
+  });
+</script>
+</body>
+</html>ative of PYAR Films<br />
+    All donations are tax-deductible to the extent permitted by law.
+  </footer>
+</div>
+
+<!-- BANDRA PAGE -->
+<div class="page" id="page-bandra">
+  <div class="page-hero">
+    <p class="breadcrumb" onclick="showPage('home')">← PYAR Foundation</p>
+    <h1>Bandra Film Festival</h1>
+    <p class="tagline">Celebrating new cinematic voices from India and the world</p>
+  </div>
+
+  <div class="detail-section">
+    <h2>About the Festival</h2>
+    <p>The Bandra Film Festival is a premier international film festival based in Mumbai, India, dedicated to amplifying independent filmmakers and emerging cinematic voices. Rooted in the vibrant creative spirit of Bandra — Mumbai's cultural heartbeat — the festival creates a platform where bold storytelling meets global audiences.</p>
+    <p>The festival's mission is to build a mutually inclusive community and host a world-class festival focused on facilitating a synergy for new cinematic voices, an exchange of innovative ideas, and unique storytelling for audiences worldwide.</p>
+
+    <div class="fact-row">
+      <div class="fact-chip"><strong>Location</strong>Mumbai, India</div>
+      <div class="fact-chip"><strong>Focus</strong>Independent & Short Films</div>
+      <div class="fact-chip"><strong>Partner</strong>Pocket Films</div>
+    </div>
+
+    <h2>PYAR Foundation's Role</h2>
+    <p>PYAR Foundation proudly supports the Bandra Film Festival as a key cultural partner and nonprofit sponsor. Our support enables the festival to broaden its reach, fund emerging filmmakers, and continue its mission of democratizing access to film distribution and global exhibition.</p>
+    <p>Through this partnership, PYAR Foundation helps ensure that independent Indian cinema — and international films in dialogue with it — find the audiences they deserve.</p>
+
+    <a class="ext-link" href="https://www.bandrafilmfestival.com/" target="_blank">Visit bandrafilmfestival.com ↗</a>
+  </div>
+
+  <footer>
+    <strong>PYAR Foundation</strong> · 501(c)(3) Nonprofit Organization · An initiative of PYAR Films
+  </footer>
+</div>
+
+<script>
+  window.showPage = function(id) {
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.remove('active'); });
+    document.getElementById('page-' + id).classList.add('active');
+    var navEl = document.getElementById('nav-' + id);
+    if (navEl) navEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return false;
+  };
+  document.querySelectorAll('.nav-links a').forEach(function(a) {
+    a.addEventListener('click', function(e) { e.preventDefault(); });
+  });
+</script>
+</body>
+</html>ative of PYAR Films
+  </footer>
+</div>
+
+<!-- MAASAI PAGE -->
+<div class="page" id="page-maasai">
+  <div class="page-hero">
+    <p class="breadcrumb" onclick="showPage('home')">← PYAR Foundation</p>
+    <h1>Maasai Community<br />Documentary</h1>
+    <p class="tagline">Bearing witness to resilience, culture, and the universal need for water</p>
+  </div>
+
+  <div class="detail-section">
+    <h2>About the Project</h2>
+    <p>The Maasai Community Documentary is an ongoing film project chronicling the lives, traditions, and daily realities of the Maasai people of East Africa — one of the world's oldest and most culturally distinctive communities. The documentary focuses on the intersection of cultural preservation and the urgent humanitarian challenge of clean water access.</p>
+    <p>In Maasai communities across Tanzania and Kenya, women walk up to 18 miles daily to fetch water that is often unsafe for human use. The documentary captures the human impact of this water crisis — and the remarkable resilience, pride, and organization of the communities working to address it.</p>
+
+    <div class="fact-row">
+      <div class="fact-chip"><strong>Region</strong>East Africa (Tanzania & Kenya)</div>
+      <div class="fact-chip"><strong>Focus</strong>Culture, Water Access, Community</div>
+      <div class="fact-chip"><strong>Format</strong>Feature Documentary</div>
+      <div class="fact-chip"><strong>Partner</strong>Maji Wells</div>
+    </div>
+
+    <h2>The Story</h2>
+    <p>The film follows the Maasai tribe of the Monduli district — a community living across over 200 square miles of ancestral land, navigating the pressures of modernity while striving to preserve their identity. Central to the narrative are the women of the community, who bear the greatest burden of water insecurity and serve as the backbone of Maasai society.</p>
+    <p>The documentary is developed in partnership with <strong>Maji Wells</strong> — a grassroots organization whose name means "water" in Swahili — which is actively working to bring clean water infrastructure to these communities. "Maji" is the Swahili word for water, and the organization works to ensure that communities don't have to walk miles for water that isn't even safe to drink.</p>
+    <p>By placing cameras in the hands of community members and centering Maasai voices, the documentary aims to be a record of cultural endurance and a catalyst for lasting change.</p>
+
+    <a class="ext-link" href="https://majiwells.org" target="_blank">Learn more at majiwells.org ↗</a>
+  </div>
+
+  <footer>
+    <strong>PYAR Foundation</strong> · 501(c)(3) Nonprofit Organization · An initiative of PYAR Films
+  </footer>
+</div>
+
+<script>
+  window.showPage = function(id) {
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.remove('active'); });
+    document.getElementById('page-' + id).classList.add('active');
+    var navEl = document.getElementById('nav-' + id);
+    if (navEl) navEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return false;
+  };
+  document.querySelectorAll('.nav-links a').forEach(function(a) {
+    a.addEventListener('click', function(e) { e.preventDefault(); });
+  });
+</script>
+</body>
+</html>ative of PYAR Films
+  </footer>
+</div>
+
+<!-- KURINJI PAGE -->
+<div class="page" id="page-kurinji">
+  <div class="page-hero">
+    <p class="breadcrumb" onclick="showPage('home')">← PYAR Foundation</p>
+    <h1>Kurinji</h1>
+    <p class="tagline">The Disappearing Flower — a Kerala drama about waiting, endurance, and change</p>
+  </div>
+
+  <div class="detail-section">
+    <h2>About the Film</h2>
+    <p><em>Kurinji</em> is a Kerala-set drama directed by filmmaker Payal Sethi, following Laly — a wife and mother whose husband has been working in the Gulf for 12 years. When he suddenly stops calling and sending money, Laly turns to a local television program that helps trace missing migrant workers. Her search uncovers his hidden life abroad, forcing her to confront an uncertain future and imagine a different life for herself.</p>
+    <p>The film takes its name from the kurinji flower, which blooms once every 12 years in the Nilgiris mountain range — a powerful metaphor for the story's themes of waiting, endurance, and the possibility of transformation.</p>
+
+    <div class="fact-row">
+      <div class="fact-chip"><strong>Director</strong>Payal Sethi</div>
+      <div class="fact-chip"><strong>Setting</strong>Kerala, India</div>
+      <div class="fact-chip"><strong>Co-producers</strong>FilmKaravan · Blue Monday · Eastern Eagle</div>
+      <div class="fact-chip"><strong>Countries</strong>India · France · USA</div>
+      <div class="fact-chip"><strong>Award</strong>1st Prize, NFDC Film Bazaar 2024</div>
+    </div>
+
+    <h2>International Recognition</h2>
+    <p>Kurinji has earned extraordinary recognition on the global film circuit. The project was presented at the Berlinale Talents Script Station and received the prestigious Kompagnon Fellowship from Perspektive Deutsches Kino and Berlinale Talents in 2022. In 2024, it won First Prize at the NFDC Film Bazaar Co-Production Market in Goa — a $10,000 award recognizing it as the most compelling co-production project of the year.</p>
+    <p>The film is produced by U.S.-based FilmKaravan — the producers behind the International Emmy-winning <em>Delhi Crime</em> — alongside France's Blue Monday Productions and India's Eastern Eagle Production. The France co-production deal was announced at the European Film Market in Berlin in early 2026.</p>
+
+    <h2>PYAR Foundation's Support</h2>
+    <p>PYAR Foundation supports <em>Kurinji</em> as part of its commitment to championing South Asian women filmmakers and stories that explore contemporary Indian realities with nuance and humanity. Director Payal Sethi's vision — to tell the story of women living in "emotional exile" while their husbands work abroad — aligns deeply with PYAR Foundation's mission of amplifying voices that might otherwise go unheard.</p>
+
+    <a class="ext-link" href="https://variety.com/2026/film/markets-festivals/delhi-crime-producer-kurinji-france-coproduction-deal-1236661959/" target="_blank">Read coverage in Variety ↗</a>
+  </div>
+
+  <footer>
+    <strong>PYAR Foundation</strong> · 501(c)(3) Nonprofit Organization · An initiative of PYAR Films
+  </footer>
+</div>
+
+<script>
+  window.showPage = function(id) {
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.remove('active'); });
+    document.getElementById('page-' + id).classList.add('active');
+    var navEl = document.getElementById('nav-' + id);
+    if (navEl) navEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return false;
+  };
+  document.querySelectorAll('.nav-links a').forEach(function(a) {
+    a.addEventListener('click', function(e) { e.preventDefault(); });
+  });
+</script>
+</body>
+</html>ative of PYAR Films
+  </footer>
+</div>
+
+<!-- CONTACT PAGE -->
+<div class="page" id="page-contact">
+  <div class="page-hero">
+    <p class="breadcrumb" onclick="showPage('home')">← PYAR Foundation</p>
+    <h1>Get in Touch</h1>
+    <p class="tagline">We'd love to hear from you</p>
+  </div>
+
+  <div class="detail-section">
+    <p>Whether you're a filmmaker, potential partner, donor, or press — we welcome your outreach. PYAR Foundation and PYAR Films operate with a shared mission and are always open to conversations about collaboration and support.</p>
+
+    <div class="contact-grid" style="grid-template-columns: 1fr; max-width: 400px;">
+      <div class="contact-card">
+        <h3>PYAR Films</h3>
+        <span class="contact-label">General Inquiries</span>
+        <a href="mailto:contact@pyar.foundation">contact@pyar.foundation</a>
+        <span class="contact-label">Support</span>
+        <a href="mailto:support@pyar.foundation">support@pyar.foundation</a>
+      </div>
+    </div>
+
+    <div class="mission-block" style="margin-top: 3rem;">
+      <p>PYAR Foundation is a 501(c)(3) tax-exempt nonprofit organization. All contributions are tax-deductible to the extent permitted by applicable law. We are grateful for the support of donors, partners, and collaborators who share our belief in the power of cinema to change hearts and minds.</p>
+    </div>
+  </div>
+
+  <footer>
+    <strong>PYAR Foundation</strong> · 501(c)(3) Nonprofit Organization · An initiative of PYAR Films
+  </footer>
+</div>
+
+<script>
+  window.showPage = function(id) {
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.nav-links a').forEach(function(a) { a.classList.remove('active'); });
+    document.getElementById('page-' + id).classList.add('active');
+    var navEl = document.getElementById('nav-' + id);
+    if (navEl) navEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return false;
+  };
+  document.querySelectorAll('.nav-links a').forEach(function(a) {
+    a.addEventListener('click', function(e) { e.preventDefault(); });
+  });
+</script>
+</body>
+</html>
